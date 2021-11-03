@@ -1,0 +1,83 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_test_ubuntu_cus_vm_name": {
+            "defaultValue": "test-ubuntu-cus-vm",
+            "type": "String"
+        },
+        "disks_test_ubuntu_cus_vm_disk1_b98ae0ee06624fd28307eeed9646f47d_externalid": {
+            "defaultValue": "/subscriptions/33b0dddb-4f05-458b-ae00-cf472eedb1fe/resourceGroups/learn-32684c11-09d7-4622-a0f8-daf6e1b323f7/providers/Microsoft.Compute/disks/test-ubuntu-cus-vm_disk1_b98ae0ee06624fd28307eeed9646f47d",
+            "type": "String"
+        },
+        "networkInterfaces_test_ubuntu_cus_vm341_externalid": {
+            "defaultValue": "/subscriptions/33b0dddb-4f05-458b-ae00-cf472eedb1fe/resourceGroups/learn-32684c11-09d7-4622-a0f8-daf6e1b323f7/providers/Microsoft.Network/networkInterfaces/test-ubuntu-cus-vm341",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2021-07-01",
+            "name": "[parameters('virtualMachines_test_ubuntu_cus_vm_name')]",
+            "location": "brazilsouth",
+            "zones": [
+                "1"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "canonical",
+                        "offer": "0001-com-ubuntu-server-focal",
+                        "sku": "20_04-lts",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('virtualMachines_test_ubuntu_cus_vm_name'), '_disk1_b98ae0ee06624fd28307eeed9646f47d')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_test_ubuntu_cus_vm_disk1_b98ae0ee06624fd28307eeed9646f47d_externalid')]"
+                        },
+                        "deleteOption": "Detach",
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_test_ubuntu_cus_vm_name')]",
+                    "adminUsername": "kbellovmazure",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false,
+                        "provisionVMAgent": true,
+                        "patchSettings": {
+                            "patchMode": "ImageDefault",
+                            "assessmentMode": "ImageDefault"
+                        }
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_test_ubuntu_cus_vm341_externalid')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                }
+            }
+        }
+    ]
+}

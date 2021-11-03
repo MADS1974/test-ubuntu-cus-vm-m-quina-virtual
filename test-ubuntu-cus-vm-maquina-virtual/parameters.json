@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_test_ubuntu_cus_vm_name": {
+            "value": null
+        },
+        "disks_test_ubuntu_cus_vm_disk1_b98ae0ee06624fd28307eeed9646f47d_externalid": {
+            "value": null
+        },
+        "networkInterfaces_test_ubuntu_cus_vm341_externalid": {
+            "value": null
+        }
+    }
+}
